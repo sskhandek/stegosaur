@@ -26,14 +26,19 @@
                 "https://mail.google.com/*"
             ],
             "js": [
+                "jquery-3.1.1.min.js",
                 "inboxsdk.js",
-                "main.js"
+                "openpgp.min.js",
+                "main.js",
+                "pgp.js"
             ]
         }
     ],
     "web_accessible_resources": [
         "jquery-3.1.1.min.js",
         "inboxsdk.js",
-        "main.js"
+        "openpgp.min.js",
+        "main.js",
+        "pgp.js"
     ]
 }
