@@ -2,7 +2,8 @@
     "name": "Stegosaur",
     "version": "0.0.1",
     "manifest_version": 2,
-    "description": "Injecting stuff",
+    "description": "PGP + Steganography!",
+    "homepage_url": "https://www.illinois.edu",
     "content_scripts": [
         {
             "matches": [
