@@ -1,9 +1,10 @@
-// this is the background code...
 
-// listen for our browerAction to be clicked
-chrome.browserAction.onClicked.addListener(function (tab) {
-	// for the current tab, inject the "inject.js" file & execute it
-	chrome.tabs.executeScript(tab.ib, {
-		file: 'inject.js'
-	});
-});
+console.log("lol")
+var gmail;
+
+var main = function () {
+	// NOTE: Always use the latest version of gmail.js from
+	// https://github.com/KartikTalwar/gmail.js
+	gmail = new Gmail();
+	console.log('Hello,', gmail.get.user_email())
+}
