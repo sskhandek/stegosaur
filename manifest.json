@@ -2,8 +2,24 @@
     "name": "Stegosaur",
     "version": "0.0.1",
     "manifest_version": 2,
+    "options_page": "options.html",
     "description": "PGP + Steganography!",
     "homepage_url": "https://www.illinois.edu",
+    "background": {
+        "scripts": [
+            "main.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_title": "Inject!"
+    },
+    "permissions": [
+        "https://mail.google.com/*",
+        "https://inbox.google.com/*",
+        "storage",
+        "tabs"
+    ],
     "content_scripts": [
         {
             "matches": [
