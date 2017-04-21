@@ -1,10 +1,16 @@
+console.log('edafdsa')
 
-console.log("lol")
-var gmail;
+InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function(sdk){
+  sdk.Compose.registerComposeViewHandler(function(composeView){
 
-var main = function () {
-	// NOTE: Always use the latest version of gmail.js from
-	// https://github.com/KartikTalwar/gmail.js
-	gmail = new Gmail();
-	console.log('Hello,', gmail.get.user_email())
-}
+  // a compose view has come into existence, do something with it!
+  composeView.addButton({
+    title: "My Nifty Button!",
+    iconUrl: 'https://example.com/foo.png',
+    onClick: function(event) {
+      event.composeView.insertHTMLIntoBodyAtCursor('<img src=\"http://news.nationalgeographic.com/content/dam/news/2016/04/21/01-baby-dinosaurs.jpg\" />');
+    }
+  });
+
+});
+});

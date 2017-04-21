@@ -10,13 +10,14 @@
                 "https://mail.google.com/*"
             ],
             "js": [
-                "content.js"
+                "inboxsdk.js",
+                "main.js"
             ]
         }
     ],
     "web_accessible_resources": [
         "jquery-3.1.1.min.js",
-        "gmail.js",
+        "inboxsdk.js",
         "main.js"
     ]
 }
