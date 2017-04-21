@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "manifest_version": 2,
     "description": "PGP + Steganography!",
-    "homepage_url": "illinois.edu",
+    "homepage_url": "https://www.illinois.edu",
     "background": {
         "scripts": [
             "main.js"
