@@ -1,0 +1,9 @@
+{
+    "manifest_version": 1,
+    "name": "Stegosaur",
+    "description": "",
+    "version": "1",
+    "permissions": [
+        "https://ajax.googleapis.com/"
+    ]
+}
