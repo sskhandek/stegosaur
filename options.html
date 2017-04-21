@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Options</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+
+  <body style="margin: 10% 25%">
+    <h2>Stegosaur</h2>
+    <div class="row">
+      <form class="col-sm-6 col-xs-12">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Public Key</label>
+          <textarea type="textarea" class="form-control" id="publickey" placeholder="Public Key"></textarea>
+        </div>
+        <button type="submit" id="adduser" class="btn btn-primary">Add user</button>
+      </form>
+
+      <form class="col-sm-6 col-xs-12">
+        <div class="form-group">
+          <label for="exampleSelect2">Current Users</label>
+          <select multiple class="form-control" id="users">
+          </select>
+        </div>
+        <button type="submit" id="removeuser" class="btn btn-primary">Remove Selected User</button>
+      </form>
+    </div>
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
