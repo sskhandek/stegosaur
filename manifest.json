@@ -7,7 +7,8 @@
     "homepage_url": "https://www.illinois.edu",
     "background": {
         "scripts": [
-            "main.js"
+            "main.js",
+            "jquery-3.1.1.min.js"
         ],
         "persistent": true
     },
@@ -16,6 +17,7 @@
         "default_popup": "popup.html"
     },
     "permissions": [
+        "clipboardWrite",
         "https://mail.google.com/*",
         "https://inbox.google.com/*",
         "storage",
@@ -28,13 +30,16 @@
             ],
             "js": [
                 "inboxsdk.js",
+                "jquery-3.1.1.min.js",
                 "main.js"
             ]
         }
     ],
     "web_accessible_resources": [
-        "jquery-3.1.1.min.js",
+        "imageselect.html",
+        "imageselect.js",
         "inboxsdk.js",
+        "jquery-3.1.1.min.js",
         "main.js"
     ]
 }
