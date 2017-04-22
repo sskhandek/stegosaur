@@ -17,7 +17,6 @@
         "default_popup": "popup.html"
     },
     "permissions": [
-        "clipboardWrite",
         "https://mail.google.com/*",
         "https://inbox.google.com/*",
         "storage",
