@@ -21,7 +21,9 @@ function insertImageToThreadOnClick(statusBar, composeView) {
 
 
     var imageText = canvas.toDataURL();
-    composeView.insertHTMLIntoBodyAtCursor('<img src=\"'+ imageText + '\" />');
+    imageText = imageText.split("base64")[1];
+    uploadToImgurAndInsertToThread(composeView, imageText);
+    // composeView.insertHTMLIntoBodyAtCursor('<img src=\"'+ imageText + '\" />');
   });
 }
 
@@ -47,7 +49,7 @@ function insertImageToCanvas(statusBar, imageAddress) {
   image.src = imageAddress;
 }
 
-function uploadToImgur(imageBase64) {
+function uploadToImgurAndInsertToThread(composeView, imageBase64) {
   $.ajax({
     type: 'POST',
     url: 'https://api.imgur.com/3/upload',
@@ -62,7 +64,7 @@ function uploadToImgur(imageBase64) {
     },
     success: function(response) {
       console.log(response.data);
-      // composeView.insertHTMLIntoBodyAtCursor('<img src=\"'+ response.data.link + '\" />');
+      composeView.insertHTMLIntoBodyAtCursor('<img src=\"'+ response.data.link + '\" />');
     },
     error: function (response) {
       console.log(response);
