@@ -26,52 +26,28 @@ function insertImageToThreadOnClick(statusBar, composeView) {
     if (password.length > 0) {
       message = sjcl.encrypt(password, message);
     } else {
-      message = JSON.stringify({'text': message});
+      alert("need a password")
+      return;
     }
-
-    var getBit = function(number, location) {
-      return ((number >> location) & 1);
-    };
-
-    var getBitsFromNumber = function(number) {
-      var bits = [];
-      for (var i = 0; i < 16; i++) {
-        bits.push(getBit(number, i));
-      }
-      return bits;
-    };
-
-    var setBit = function(number, location, bit) {
-      return (number & ~(1 << location)) | (bit << location);
-    };
-
-    var messageBits = [];
-    for (var i = 0; i < message.length; i++) {
-      var code = message.charCodeAt(i);
-      var bits = getBitsFromNumber(code);
-      messageBits = messageBits.concat(bits);
-    }
+    console.log(message);
 
     var ctx = canvas.getContext("2d");
     var imgData = ctx.getImageData(0,0, canvas.width, canvas.height);
     var colors = imgData.data;
-    console.log(colors)
 
-    var hash = sjcl.hash.sha256.hash(password);
-    var pos = 0;
-    while (pos < messageBits.length) {
-      var rand = hash[pos % hash.length] * (pos + 1);
-      var loc = Math.abs(rand) % colors.length;
-      colors[loc] = setBit(colors[loc], 0, messageBits[pos]);
-      pos++;
-    }
+    // Manipulation here //
+
     imgData.data = colors
     ctx.putImageData(imgData, 0, 0)
 
     var imageText = canvas.toDataURL();
     imageText = imageText.split("base64")[1];
     uploadToImgurAndInsertToThread(composeView, imageText);
-    // composeView.insertHTMLIntoBodyAtCursor('<img src=\"'+ imageText + '\" />');
+
+    // Validating
+    console.log(resultingMessage)
+    console.log(sjcl.decrypt(password, message));
+
   });
 }
 
