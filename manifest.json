@@ -9,7 +9,8 @@
         "scripts": [
             "main.js",
             "jquery-3.1.1.min.js",
-            "sjcl.js"
+            "sjcl.js",
+            "steganography.js"
         ],
         "persistent": true
     },
@@ -32,7 +33,8 @@
                 "inboxsdk.js",
                 "jquery-3.1.1.min.js",
                 "main.js",
-                "sjcl.js"
+                "sjcl.js",
+                "steganography.js"
             ]
         }
     ],
@@ -42,6 +44,7 @@
         "inboxsdk.js",
         "jquery-3.1.1.min.js",
         "main.js",
-        "sjcl.js"
+        "sjcl.js",
+        "steganography.js"
     ]
 }

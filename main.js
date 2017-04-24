@@ -15,38 +15,28 @@ InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function(sdk){
 function insertImageToThreadOnClick(statusBar, composeView) {
   $(statusBar).find("#steg-insert").click(function() {
     var canvas = $(statusBar).find("#steg-canvas").get(0);
-    console.log($('#steg-address').val(), $('#steg-message').val())
+
 
 
     // Do Steganography here
     // http://stackoverflow.com/questions/667045/getpixel-from-html-canvas
 
     var message =  $('#steg-message').val();
-    var password = "mypassword"; // Password will go here
-    if (password.length > 0) {
-      message = sjcl.encrypt(password, message);
-    } else {
-      alert("need a password")
-      return;
-    }
-    console.log(message);
-
     var ctx = canvas.getContext("2d");
     var imgData = ctx.getImageData(0,0, canvas.width, canvas.height);
     var colors = imgData.data;
 
     // Manipulation here //
-
-    imgData.data = colors
-    ctx.putImageData(imgData, 0, 0)
-
-    var imageText = canvas.toDataURL();
-    imageText = imageText.split("base64")[1];
+    imageText = steg.encode(message, canvas, {"width": canvas.width, "height": canvas.height});
+    console.log(imageText)
     uploadToImgurAndInsertToThread(composeView, imageText);
 
-    // Validating
-    console.log(resultingMessage)
-    console.log(sjcl.decrypt(password, message));
+    // Validating to be added when user receives image
+    var image = new Image();
+    image.addEventListener('load', function() {
+        console.log(steg.decode(image))
+    })
+    image.src = imageText;
 
   });
 }
