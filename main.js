@@ -16,8 +16,6 @@ function insertImageToThreadOnClick(statusBar, composeView) {
   $(statusBar).find("#steg-insert").click(function() {
     var canvas = $(statusBar).find("#steg-canvas").get(0);
 
-
-
     // Do Steganography here
     // http://stackoverflow.com/questions/667045/getpixel-from-html-canvas
 
@@ -29,17 +27,20 @@ function insertImageToThreadOnClick(statusBar, composeView) {
 
     // Manipulation here //
     imageText = steg.encode(message, canvas, {"width": canvas.width, "height": canvas.height});
-    var base64String = /,(.+)/.exec(imageText)[1];
-
-
-    uploadToImgurAndInsertToThread(composeView, base64String);
+    var image = new Image();
+    image.crossOrigin = "Anonymous";
+    image.src = imageText;
+    image.addEventListener('load', function() {
+        var base64String = /,(.+)/.exec(imageText)[1];
+        uploadToImgurAndInsertToThread(composeView, base64String);
+    })
 
     // Validating
-    var image = new Image();
-    image.addEventListener('load', function() {
-        console.log(steg.decode(image))
-    })
-    image.src = imageText;
+    // var image = new Image();
+    // image.addEventListener('load', function() {
+    //     console.log(steg.decode(image))
+    // })
+    // image.src = imageText;
 
   });
 }
