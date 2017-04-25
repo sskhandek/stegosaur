@@ -22,16 +22,19 @@ function insertImageToThreadOnClick(statusBar, composeView) {
     // http://stackoverflow.com/questions/667045/getpixel-from-html-canvas
 
     var message =  $('#steg-message').val();
+
     var ctx = canvas.getContext("2d");
     var imgData = ctx.getImageData(0,0, canvas.width, canvas.height);
     var colors = imgData.data;
 
     // Manipulation here //
     imageText = steg.encode(message, canvas, {"width": canvas.width, "height": canvas.height});
-    console.log(imageText)
-    uploadToImgurAndInsertToThread(composeView, imageText);
+    var base64String = /,(.+)/.exec(imageText)[1];
 
-    // Validating to be added when user receives image
+
+    uploadToImgurAndInsertToThread(composeView, base64String);
+
+    // Validating
     var image = new Image();
     image.addEventListener('load', function() {
         console.log(steg.decode(image))
