@@ -1,0 +1,42 @@
+<style>
+
+.steg-wrapper {
+  display: table;
+}
+
+.form-control {
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  max-width: 33%;
+  color: #464a4c;
+  background-color: #fff;
+  background-image: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: .25rem;
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+
+#steg-image {
+  max-height: 30px;
+  vertical-align: middle;
+}
+
+#steg-canvas {
+
+}
+
+</style>
+<div class="steg-wrapper">
+  <input type="text" class="form-control" id="steg-address" placeholder="Image Link">
+  <input type="text" class="form-control" id="steg-message" placeholder="Secret Message"></textarea>
+  <button type="submit" id="steg-insert" class="btn btn-primary T-I J-J5-Ji aoO T-I-atl L3" tooltip="test">Encrypt!</button>
+  <img id="steg-image"/>
+  <canvas id="steg-canvas" width=500 height=500></canvas>
+</div>

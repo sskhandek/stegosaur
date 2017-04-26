@@ -7,12 +7,16 @@
     "homepage_url": "https://www.illinois.edu",
     "background": {
         "scripts": [
-            "main.js"
+            "main.js",
+            "jquery-3.1.1.min.js",
+            "sjcl.js",
+            "steganography.js"
         ],
         "persistent": true
     },
     "browser_action": {
-        "default_title": "Inject!"
+        "default_title": "Inject!",
+        "default_popup": "popup.html"
     },
     "permissions": [
         "https://mail.google.com/*",
@@ -29,16 +33,23 @@
                 "jquery-3.1.1.min.js",
                 "inboxsdk.js",
                 "openpgp.min.js",
-                "main.js",
                 "pgp.js"
+                "jquery-3.1.1.min.js",
+                "main.js",
+                "sjcl.js",
+                "steganography.js"
             ]
         }
     ],
     "web_accessible_resources": [
-        "jquery-3.1.1.min.js",
+        "imageselect.html",
+        "imageselect.js",
         "inboxsdk.js",
         "openpgp.min.js",
         "main.js",
         "pgp.js"
+        "jquery-3.1.1.min.js",
+        "sjcl.js",
+        "steganography.js"
     ]
 }
