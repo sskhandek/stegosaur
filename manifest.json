@@ -30,7 +30,10 @@
                 "https://mail.google.com/*"
             ],
             "js": [
+                "jquery-3.1.1.min.js",
                 "inboxsdk.js",
+                "openpgp.min.js",
+                "pgp.js"
                 "jquery-3.1.1.min.js",
                 "main.js",
                 "sjcl.js",
@@ -42,8 +45,10 @@
         "imageselect.html",
         "imageselect.js",
         "inboxsdk.js",
-        "jquery-3.1.1.min.js",
+        "openpgp.min.js",
         "main.js",
+        "pgp.js"
+        "jquery-3.1.1.min.js",
         "sjcl.js",
         "steganography.js"
     ]
