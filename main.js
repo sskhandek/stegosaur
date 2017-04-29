@@ -10,7 +10,43 @@ InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function(sdk){
       insertImageToThreadOnClick(statusBarView.el, composeView);
     });
   });
+
+
+  sdk.Conversations.registerMessageViewHandler(function(messageView) {
+    var message = messageView.getBodyElement().getElementsByTagName('img');
+    if (message) {
+      var node = document.createElement('span');
+      node.appendChild(document.createElement('br'));
+      var textnode = document.createTextNode("SECRET MESSAGES:");         // Create a text node
+      node.appendChild(textnode);
+      node.appendChild(document.createElement('br'));
+      messageView.getBodyElement().appendChild(node)
+
+      for (var i = 0; i < message.length; i++) {
+        var j = message[i].src;
+        var src = j.substring(j.indexOf("#")).substring(1)
+        var img = new Image();
+        img.crossOrigin = "";
+        img.src = src;
+        img.addEventListener('load', function() {
+          try {
+             console.log(steg.decode(img));
+             var node = document.createElement('span');
+             var textnode = document.createTextNode(steg.decode(img) + "");         // Create a text node
+             node.appendChild(textnode);
+             node.appendChild(document.createElement('br'));
+             messageView.getBodyElement().appendChild(node)
+          } catch (e) {
+            console.log(e)
+          }
+          
+        })
+      }
+    }
+  });
 });
+
+
 
 function insertImageToThreadOnClick(statusBar, composeView) {
   $(statusBar).find("#steg-insert").click(function() {
@@ -19,7 +55,7 @@ function insertImageToThreadOnClick(statusBar, composeView) {
     // Do Steganography here
     // http://stackoverflow.com/questions/667045/getpixel-from-html-canvas
 
-    var message =  $('#steg-message').val();
+    var message = $('#steg-message').val();
 
     var ctx = canvas.getContext("2d");
     var imgData = ctx.getImageData(0,0, canvas.width, canvas.height);
@@ -28,8 +64,8 @@ function insertImageToThreadOnClick(statusBar, composeView) {
     // Manipulation here //
     imageText = steg.encode(message, canvas, {"width": canvas.width, "height": canvas.height});
     var image = new Image();
-    image.crossOrigin = "Anonymous";
     image.src = imageText;
+    image.crossOrigin = "Anonymous";
     image.addEventListener('load', function() {
         var base64String = /,(.+)/.exec(imageText)[1];
         uploadToImgurAndInsertToThread(composeView, base64String);
@@ -57,7 +93,7 @@ function bindAddressInputToPreviewImage(statusBar) {
 The canvas is drawn but hidden, and it is a square and may need to be redrawn or multiple images */
 function insertImageToCanvas(statusBar, imageAddress) {
   var image = new Image();
-  image.crossOrigin = 'anonymous';
+  image.crossOrigin = '';
   image.onload = function () {
     var canvas = $(statusBar).find("#steg-canvas").get(0);
     var context = canvas.getContext('2d');
