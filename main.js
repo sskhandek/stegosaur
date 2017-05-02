@@ -6,6 +6,7 @@ InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function (sdk) {
 
         $.get(chrome.extension.getURL('imageselect.html'), function (data) {
             statusBarView.el.innerHTML = data;
+            populateRecipientList(statusBarView.el);
             bindAddressInputToPreviewImage(statusBarView.el);
             insertImageToThreadOnClick(statusBarView.el, composeView);
         });
@@ -20,25 +21,51 @@ InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function (sdk) {
                 node.appendChild(document.createElement('br'));
                 var secretMessages = [];
 
+                console.log(images);
+                imagesArr = [];
                 for (var i = 0; i < images.length; i++) {
-                    var j = images[i].src;
+                    imagesArr.push(images[i]);
+                }
+
+                imagesArr.forEach(function(imageObj) {
+                    var j = imageObj.src;
                     var src = j.substring(j.indexOf("#")).substring(1)
+                    console.log(src);
+                    if (src.indexOf("cleardot.gif") !== -1) {
+                        return;
+                    }
+
                     var img = new Image();
                     img.crossOrigin = "";
                     img.src = src;
+                    console.log(img)
                     img.addEventListener('load', function () {
                         try {
-                            var decodedMessage = steg.decode(img) + "";
-                            if (decodedMessage) {
-                                var textnode = document.createTextNode();
-                                node.appendChild(textnode);
-                                node.appendChild(document.createElement('br'));
+                            console.log("Trying to decode message");
+                            console.log(img);
+                            var decodedCiphertext = steg.decode(img) + "";
+                            console.log(decodedCiphertext);
+                            if (decodedCiphertext) {
+                                chrome.storage.sync.get("myPrivateKey", function(values) {
+                                    var privkey = values.myPrivateKey;
+                                    try {
+                                        pgpDecrypt(decodedCiphertext, privkey, "")
+                                            .then(function(plaintext) {
+                                                console.log(plaintext);
+                                                var textnode = document.createTextNode(plaintext);
+                                                node.appendChild(textnode);
+                                                node.appendChild(document.createElement('br'));
+                                            });
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                });
                             }
                         } catch (e) {
                             console.log(e)
                         }
                     })
-                }
+                });
                 messageView.getBodyElement().appendChild(node)
             } catch (e) {
 
@@ -57,13 +84,35 @@ function insertImageToThreadOnClick(statusBar, composeView) {
         var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var colors = imgData.data;
 
-        imageText = steg.encode(message, canvas, { "width": canvas.width, "height": canvas.height });
-        var image = new Image();
-        image.src = imageText;
-        image.crossOrigin = "Anonymous";
-        image.addEventListener('load', function () {
-            var base64String = /,(.+)/.exec(imageText)[1];
-            uploadToImgurAndInsertToThread(composeView, base64String);
+        chrome.storage.sync.get(null, function(values) {
+            console.log(values);
+            var s = $(statusBar).find("#steg-recipient-select").get(0);
+            var recipient = s.options[s.selectedIndex].value;
+            pgpEncrypt(message, values[recipient], "")
+                .then(function(ciphertext) {
+                    console.log(ciphertext);
+                    imageText = steg.encode(ciphertext, canvas, { "width": canvas.width, "height": canvas.height });
+                    var image = new Image();
+                    image.src = imageText;
+                    image.crossOrigin = "Anonymous";
+                    image.addEventListener('load', function () {
+                        var base64String = /,(.+)/.exec(imageText)[1];
+                        uploadToImgurAndInsertToThread(composeView, base64String);
+                    });
+                });
+        });
+    });
+}
+
+function populateRecipientList(statusBar) {
+    chrome.storage.sync.get(null, function(values) {
+        var recipients = Object.keys(values).filter(function(key) {
+            return key !== "myPrivateKey";
+        });
+        recipients.sort();
+        var select = $(statusBar).find("#steg-recipient-select");
+        recipients.forEach(function(email) {
+            select.append($("<option></option>").text(email));
         });
     });
 }

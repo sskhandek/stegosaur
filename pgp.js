@@ -1,8 +1,44 @@
-var $ = window.$;
-var openpgp = window.openpgp;
+/**
+ * plaintext: message to encrypt
+ * pubkey: public key of recipient
+ * passphrase: passphrase for my private key
+ *
+ * Returns promise with ASCII armored PGP message
+ */
+var pgpEncrypt = function(plaintext, pubkey, passphrase) {
+    var options = {
+        data: plaintext,                             // input as String (or Uint8Array)
+        publicKeys: openpgp.key.readArmored(pubkey).keys  // for encryption
+    };
 
-// Example key pair
-var pubkey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+    return openpgp.encrypt(options).then(function(ciphertext) {
+        return ciphertext.data;
+    });
+};
+
+/**
+ * ciphertext: ASCII armored PGP message
+ * privkey: my private key
+ * passphrase: passphrase for my private key
+ *
+ * Returns promise with plaintext string
+ */
+var pgpDecrypt = function(ciphertext, privkey, passphrase) {
+    var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+    privKeyObj.decrypt(passphrase);
+
+    var options = {
+        message: openpgp.message.readArmored(ciphertext),     // parse armored message
+        privateKey: privKeyObj // for decryption
+    };
+
+    return openpgp.decrypt(options).then(function(plaintext) {
+        return plaintext.data; // 'Hello, World!'
+    });
+};
+
+$(function() {
+    var pubkey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: BCPG C# v1.6.1.0
 
 mQENBFj6XP0BCACbZFDa9jnLGqATZMpQRrYgyC/KSEbp6xHfKthWODaWeDu7WADV
@@ -20,7 +56,7 @@ fey4nbl056mu3PqmMrbOVWNClP5DjTqjm4q8MVoCcT8F
 =xRD9
 -----END PGP PUBLIC KEY BLOCK-----`;
 
-var privkey = `-----BEGIN PGP PRIVATE KEY BLOCK-----
+    var privkey = `-----BEGIN PGP PRIVATE KEY BLOCK-----
 Version: BCPG C# v1.6.1.0
 
 lQOsBFj6XP0BCACbZFDa9jnLGqATZMpQRrYgyC/KSEbp6xHfKthWODaWeDu7WADV
@@ -52,52 +88,9 @@ t55C3agD/xEEqbJrKVqTjs+zNkdynJnJXxSD1DR35BhhImoxyHa6qCnfDkUWTnN9
 =0hsu
 -----END PGP PRIVATE KEY BLOCK-----`;
 
-var passphrase = ''; //what the privKey is encrypted with
+    var passphrase = ''; //what the privKey is encrypted with
 
-/**
- * plaintext: message to encrypt
- * pubkey: public key of recipient
- * privkey: my private key
- * passphrase: passphrase for my private key
- */
-var pgpEncrypt = function(plaintext, pubkey, privkey, passphrase) {
-    var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-    privKeyObj.decrypt(passphrase);
-
-    var options = {
-        data: plaintext,                             // input as String (or Uint8Array)
-        publicKeys: openpgp.key.readArmored(pubkey).keys,  // for encryption
-        privateKeys: privKeyObj, // for signing (optional)
-        armor: false
-    };
-
-    return openpgp.encrypt(options).then(function(ciphertext) {
-        return ciphertext.message.packets.write();
-    });
-};
-
-/**
- * ciphertext: Uint8Array of ciphertext
- * privkey: my private key
- * passphrase: passphrase for my private key
- */
-var pgpDecrypt = function(ciphertext, privkey, passphrase) {
-    var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-    privKeyObj.decrypt(passphrase);
-
-    var options = {
-        message: openpgp.message.read(ciphertext),     // parse armored message
-        publicKeys: openpgp.key.readArmored(pubkey).keys,    // for verification (optional)
-        privateKey: privKeyObj // for decryption
-    };
-
-    return openpgp.decrypt(options).then(function(plaintext) {
-        return plaintext.data; // 'Hello, World!'
-    });
-};
-
-$(function() {
-    pgpEncrypt('Hello world 你好', pubkey, privkey, passphrase)
+    pgpEncrypt('Hello world 你好', pubkey, passphrase)
         .then(function(ciphertext) {
             return pgpDecrypt(ciphertext, privkey, passphrase);
         })
