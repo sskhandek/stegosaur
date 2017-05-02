@@ -52,7 +52,7 @@ function insertImageToThreadOnClick(statusBar, composeView) {
     $(statusBar).find("#steg-insert").click(function () {
         var canvas = $(statusBar).find("#steg-canvas").get(0);
         var message = $('#steg-message').val();
-
+        
         var ctx = canvas.getContext("2d");
         var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var colors = imgData.data;
@@ -64,7 +64,7 @@ function insertImageToThreadOnClick(statusBar, composeView) {
         image.addEventListener('load', function () {
             var base64String = /,(.+)/.exec(imageText)[1];
             uploadToImgurAndInsertToThread(composeView, base64String);
-        })
+        });
     });
 }
 

@@ -11,10 +11,12 @@ function addUser(email, publicKey) {
 function showUsers() {
   $("#users option").remove();
   chrome.storage.sync.get(null, function (values) {
-    $.each(values, function(key, value) {   
-       option = $('#users')
+    $.each(values, function(key, value) {
+       if (key !== 'myPrivateKey') {
+         option = $('#users')
            .append($("<option></option>")
                       .text(key));
+       }   
     });
   });
 }
@@ -22,6 +24,15 @@ function showUsers() {
 function removeUser(email) {
   chrome.storage.sync.remove(email, function() {
     showUsers();
+  });
+}
+
+function updatePrivateKey(privateKey) {
+  var save = {};
+  save['myPrivateKey'] = privateKey;
+  chrome.storage.sync.set(save, function() {
+    $("#privatekey").val("");
+    alert('Your Private Key has been sucessfully been updated')
   });
 }
 
@@ -33,6 +44,11 @@ $("#adduser").click(function() {
 $("#removeuser").click(function() {
   event.preventDefault();
   removeUser($("#users").val());
+});
+
+$("#updatePrivateKey").click(function() {
+  event.preventDefault();
+  updatePrivateKey($('#privatekey').val())
 });
 
 showUsers();
