@@ -1,7 +1,7 @@
 InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function (sdk) {
     sdk.Compose.registerComposeViewHandler(function (composeView) {
         var statusBarView = composeView.addStatusBar({
-            height: 40
+            height: 80
         });
 
         $.get(chrome.extension.getURL('imageselect.html'), function (data) {
@@ -21,7 +21,6 @@ InboxSDK.load('1.0', 'sdk_stegosaur_1b4904456f').then(function (sdk) {
                 node.appendChild(document.createElement('br'));
                 var secretMessages = [];
 
-                console.log(images);
                 imagesArr = [];
                 for (var i = 0; i < images.length; i++) {
                     imagesArr.push(images[i]);
@@ -85,9 +84,14 @@ function insertImageToThreadOnClick(statusBar, composeView) {
         var colors = imgData.data;
 
         chrome.storage.sync.get(null, function(values) {
-            console.log(values);
             var s = $(statusBar).find("#steg-recipient-select").get(0);
             var recipient = s.options[s.selectedIndex].value;
+
+            if (!canvas || message === '' || recipient == '') {
+                alert('Please fill out all the fields!')
+                return;
+            }
+
             pgpEncrypt(message, values[recipient], "")
                 .then(function(ciphertext) {
                     console.log(ciphertext);

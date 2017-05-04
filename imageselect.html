@@ -8,7 +8,7 @@
   padding: .5rem .75rem;
   font-size: 1rem;
   line-height: 1.25;
-  max-width: 33%;
+  max-width: 20%;
   color: #464a4c;
   background-color: #fff;
   background-image: none;
@@ -32,14 +32,19 @@
 
 }
 
+#steg-recipient-select {
+  max-width: 100%;
+}
+
 </style>
 <div class="steg-wrapper">
   <div>
-    Encrypt for: <select id="steg-recipient-select"></select>
-  </div>
-  <div>
+    <div style="display: inline-block; max-width: 30%">
+      <select id="steg-recipient-select"></select>
+    </div>
     <input type="text" class="form-control" id="steg-address" placeholder="Image Link">
     <input type="text" class="form-control" id="steg-message" placeholder="Secret Message"></textarea>
+    <br>
     <button type="submit" id="steg-insert" class="btn btn-primary T-I J-J5-Ji aoO T-I-atl L3" tooltip="test">Encrypt!</button>
     <img id="steg-image"/>
     <canvas id="steg-canvas" width=500 height=500></canvas>

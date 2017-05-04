@@ -95,6 +95,5 @@ t55C3agD/xEEqbJrKVqTjs+zNkdynJnJXxSD1DR35BhhImoxyHa6qCnfDkUWTnN9
             return pgpDecrypt(ciphertext, privkey, passphrase);
         })
         .then(function(plaintext) {
-            console.log(plaintext);
         });
 });
