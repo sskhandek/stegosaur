@@ -37,16 +37,20 @@
 }
 
 </style>
+
 <div class="steg-wrapper">
-  <div>
-    <div style="display: inline-block; max-width: 30%">
-      <select id="steg-recipient-select"></select>
+  <form style="padding-left: 5px">
+    <div class="form-group">
+      <input style="display: inline-block; width: 35%; max-width: 35%; height: 30px; padding: 0; padding-left: 10px" type="text" class="form-control" id="steg-address" placeholder="Image Link">
+      <input style="display: inline-block; width: 35%; max-width: 35%; height: 30px; padding: 0; padding-left: 10px" type="text" class="form-control" id="steg-message" placeholder="Secret Message"></textarea>
+      <br>
+      <button type="submit" id="steg-insert" class="btn btn-primary T-I J-J5-Ji aoO T-I-atl L3" style="display: inline-block; max-width: 25%" tooltip="test">Encrypt!</button>
+      <select style="display: inline-block;  width: 35%; max-width: 35%" id="steg-recipient-select"></select>
+      <br>
+      <img id="steg-image"/>
+      <canvas id="steg-canvas" width=500 height=500></canvas>
     </div>
-    <input type="text" class="form-control" id="steg-address" placeholder="Image Link">
-    <input type="text" class="form-control" id="steg-message" placeholder="Secret Message"></textarea>
-    <br>
-    <button type="submit" id="steg-insert" class="btn btn-primary T-I J-J5-Ji aoO T-I-atl L3" tooltip="test">Encrypt!</button>
-    <img id="steg-image"/>
-    <canvas id="steg-canvas" width=500 height=500></canvas>
-  </div>
+  </form>
+
+  
 </div>
